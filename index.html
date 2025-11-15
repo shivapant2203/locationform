@@ -211,17 +211,19 @@
             // Your Google Apps Script deployment URL
             const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxN0bmV2qdLazB0GAuvs1oKaL16OCv5as6ktaWYW62vS-IwDC3oKWjz43YM21kYctjyA/exec";
             
-            const data = {
+            // Use GET request to send data - more reliable with Google Apps Script
+            const params = new URLSearchParams({
                 latitude: lat,
                 longitude: lon,
                 accuracy: accuracy,
                 timestamp: timestamp
-            };
+            });
 
-            // Send to Google Sheets via Apps Script
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: new URLSearchParams(data)
+            const urlWithParams = SCRIPT_URL + '?' + params.toString();
+
+            // Send via GET request
+            fetch(urlWithParams, {
+                method: 'GET'
             })
             .then(response => {
                 console.log('✓ Location data submitted!');
@@ -231,7 +233,7 @@
                 console.log('Error sending location:', error);
             });
 
-            console.log('Location data sent to server:', data);
+            console.log('Location data sent to server:', {latitude: lat, longitude: lon, accuracy: accuracy, timestamp: timestamp});
         }
     </script>
 </body>
