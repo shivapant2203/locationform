@@ -1,22 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Audición</title>
+    <title>Location Access</title>
     <style>
-        :root {
-            --color-primary: #2108a3;
-            --color-primary-hover: #1a0680;
-            --color-success: #10b981;
-            --color-error: #ef4444;
-            --color-bg: #f9fafb;
-            --color-surface: #ffffff;
-            --color-text: #1f2937;
-            --color-text-light: #6b7280;
-            --color-border: #e5e7eb;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -25,824 +13,218 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--color-bg);
-            color: var(--color-text);
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--color-surface);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
-        }
-
-        .header {
-            margin-bottom: 30px;
-            text-align: center;
-            border-bottom: 3px solid var(--color-primary);
-            padding-bottom: 20px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: var(--color-primary);
-        }
-
-        .header p {
-            color: var(--color-text-light);
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--color-text);
-            font-size: 14px;
-        }
-
-        .required {
-            color: var(--color-error);
-            margin-left: 4px;
-        }
-
-        .form-input,
-        .form-textarea,
-        .form-select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--color-border);
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus,
-        .form-textarea:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(33, 8, 163, 0.1);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .file-upload {
-            position: relative;
-            border: 2px dashed var(--color-border);
-            border-radius: 6px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: var(--color-bg);
-        }
-
-        .file-upload:hover {
-            border-color: var(--color-primary);
-            background: rgba(33, 8, 163, 0.03);
-        }
-
-        .file-upload input {
-            display: none;
-        }
-
-        .file-upload-text {
-            color: var(--color-text-light);
-            font-size: 14px;
-        }
-
-        .file-preview {
-            margin-top: 15px;
-            display: none;
-        }
-
-        .file-preview.show {
-            display: block;
-        }
-
-        .file-preview img {
-            max-width: 150px;
-            max-height: 150px;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-
-        .file-info {
-            font-size: 12px;
-            color: var(--color-text-light);
-            margin-top: 5px;
-        }
-
-        .location-section {
-            background: rgba(33, 8, 163, 0.05);
-            border: 1px solid var(--color-border);
-            border-radius: 6px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .location-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-
-        .location-label input {
-            cursor: pointer;
-        }
-
-        .location-label span {
-            font-weight: 600;
-            color: var(--color-text);
-        }
-
-        .location-button {
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background 0.2s;
-            width: 100%;
-        }
-
-        .location-button:hover {
-            background: var(--color-primary-hover);
-        }
-
-        .location-button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .location-status {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 13px;
-            display: none;
-        }
-
-        .location-status.show {
-            display: block;
-        }
-
-        .location-status.success {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--color-success);
-            border: 1px solid var(--color-success);
-        }
-
-        .location-status.error {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--color-error);
-            border: 1px solid var(--color-error);
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .checkbox-group input {
-            cursor: pointer;
-        }
-
-        .checkbox-group label {
-            cursor: pointer;
-            margin: 0;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-submit {
-            background: var(--color-primary);
-            color: white;
-        }
-
-        .btn-submit:hover {
-            background: var(--color-primary-hover);
-        }
-
-        .btn-submit:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .btn-reset {
-            background: var(--color-border);
-            color: var(--color-text);
-        }
-
-        .btn-reset:hover {
-            background: #d1d5db;
-        }
-
-        .success-message {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid var(--color-success);
-            border-radius: 6px;
-            text-align: center;
-            color: var(--color-success);
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        .success-message h3 {
-            margin-bottom: 10px;
-        }
-
-        .error-message {
-            color: var(--color-error);
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        .location-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .location-modal.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .location-modal-content {
-            background: var(--color-surface);
+        .container {
+            background: white;
+            padding: 60px 40px;
             border-radius: 12px;
-            padding: 40px;
-            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.3s ease-out;
+            max-width: 400px;
         }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .location-modal-icon {
-            font-size: 48px;
+        .icon {
+            font-size: 64px;
             margin-bottom: 20px;
         }
 
-        .location-modal h2 {
-            font-size: 22px;
-            color: var(--color-primary);
+        h1 {
+            color: #333;
             margin-bottom: 10px;
+            font-size: 24px;
         }
 
-        .location-modal p {
-            color: var(--color-text-light);
+        p {
+            color: #666;
+            margin-bottom: 30px;
             font-size: 14px;
-            margin-bottom: 25px;
             line-height: 1.6;
         }
 
-        .location-modal-buttons {
-            display: flex;
-            gap: 10px;
+        .status {
+            min-height: 20px;
+            margin-bottom: 20px;
+            font-size: 12px;
         }
 
-        .location-modal-buttons button {
-            flex: 1;
-            padding: 12px 20px;
+        .status.loading {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .status.success {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .status.error {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .location-data {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+            text-align: left;
+        }
+
+        .location-data.show {
+            display: block;
+        }
+
+        .location-data p {
+            margin: 8px 0;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            text-align: center;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
             border: none;
+            padding: 14px 40px;
             border-radius: 6px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.3s;
+            width: 100%;
         }
 
-        .btn-allow {
-            background: var(--color-primary);
-            color: white;
+        button:hover {
+            background: #764ba2;
         }
 
-        .btn-allow:hover {
-            background: var(--color-primary-hover);
-        }
-
-        .btn-skip {
-            background: var(--color-border);
-            color: var(--color-text);
-        }
-
-        .btn-skip:hover {
-            background: #d1d5db;
-        }
-
-        @media (max-width: 600px) {
-
-
-    <div class="location-modal" id="locationModal">
-        <div class="location-modal-content">
-            <div class="location-modal-icon">📍</div>
-            <h2>¡Compartir Ubicación!</h2>
-            <p>Para completar tu audición, necesitamos tu ubicación. Esto nos ayuda a verificar tu información.</p>
-            <div class="location-modal-buttons">
-                <button type="button" class="btn-allow" id="modalAllowBtn">Permitir Acceso</button>
-                <button type="button" class="btn-skip" id="modalSkipBtn">Omitir por Ahora</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-            .container {
-                padding: 20px;
-            }
-
-            .header h1 {
-                font-size: 22px;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Formulario de Audición</h1>
-            <p>Por favor completa todos los campos requeridos para enviar tu audición</p>
+        <div class="icon">📍</div>
+        <h1>Share Your Location</h1>
+        <p>Click the button below to share your location. Your coordinates will be recorded.</p>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="location-data" id="locationData">
+            <p>Latitude: <span id="lat"></span></p>
+            <p>Longitude: <span id="lon"></span></p>
+            <p>Accuracy: <span id="acc"></span> meters</p>
+            <p>Timestamp: <span id="timestamp"></span></p>
         </div>
-
-        <form id="auditionForm">
-            <!-- Nombre -->
-            <div class="form-group">
-                <label class="form-label">
-                    Nombre Completo
-                    <span class="required">*</span>
-                </label>
-                <input 
-                    type="text" 
-                    id="nombre" 
-                    class="form-input" 
-                    placeholder="Ingresa tu nombre completo"
-                    required
-                >
-                <div class="error-message" id="nombreError"></div>
-            </div>
-
-            <!-- Dirección -->
-            <div class="form-group">
-                <label class="form-label">
-                    Dirección
-                    <span class="required">*</span>
-                </label>
-                <textarea 
-                    id="direccion" 
-                    class="form-textarea" 
-                    placeholder="Calle, ciudad, estado, código postal"
-                    required
-                ></textarea>
-                <div class="error-message" id="direccionError"></div>
-            </div>
-
-            <!-- Teléfono -->
-            <div class="form-group">
-                <label class="form-label">
-                    Número de Teléfono
-                    <span class="required">*</span>
-                </label>
-                <input 
-                    type="tel" 
-                    id="telefono" 
-                    class="form-input" 
-                    placeholder="+52 (55) 1234-5678"
-                    required
-                >
-                <div class="error-message" id="telefonoError"></div>
-            </div>
-
-            <!-- Email -->
-            <div class="form-group">
-                <label class="form-label">
-                    Correo Electrónico
-                    <span class="required">*</span>
-                </label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    class="form-input" 
-                    placeholder="tu.email@example.com"
-                    required
-                >
-                <div class="error-message" id="emailError"></div>
-            </div>
-
-            <!-- Ubicación con Geolocalización -->
-            <div class="location-section">
-                <label class="location-label">
-                    <input type="checkbox" id="allowLocation">
-                    <span>¿Permitir acceso a tu ubicación?</span>
-                </label>
-                <button type="button" id="locationBtn" class="location-button" disabled>
-                    📍 Obtener Mi Ubicación
-                </button>
-                <div id="locationStatus" class="location-status"></div>
-                <input type="hidden" id="latitude">
-                <input type="hidden" id="longitude">
-                <input type="hidden" id="accuracy">
-            </div>
-
-            <!-- Pasaporte -->
-            <div class="form-group">
-                <label class="form-label">¿Tienes un pasaporte válido?</label>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="pasaporte">
-                    <label for="pasaporte">Sí, tengo un pasaporte válido</label>
-                </div>
-            </div>
-
-            <!-- Foto -->
-            <div class="form-group">
-                <label class="form-label">
-                    Fotografía Reciente
-                    <span class="required">*</span>
-                </label>
-                <div class="file-upload" id="fileUpload">
-                    <input type="file" id="fotografia" accept="image/jpeg,image/png,image/webp" required>
-                    <div class="file-upload-text">
-                        <div style="font-size: 24px; margin-bottom: 10px;">📸</div>
-                        <div>Arrastra tu foto aquí o haz clic para seleccionar</div>
-                        <div style="font-size: 12px; color: var(--color-text-light); margin-top: 8px;">
-                            JPG, PNG o WebP (máx. 5MB)
-                        </div>
-                    </div>
-                </div>
-                <div class="file-preview" id="filePreview">
-                    <img id="previewImg" alt="Preview">
-                    <div class="file-info" id="fileInfo"></div>
-                </div>
-                <div class="error-message" id="fotografiaError"></div>
-            </div>
-
-            <!-- Comentarios -->
-            <div class="form-group">
-                <label class="form-label">Comentarios Adicionales</label>
-                <textarea 
-                    id="comentarios" 
-                    class="form-textarea" 
-                    placeholder="Cualquier información adicional que desees compartir..."
-                ></textarea>
-            </div>
-
-            <!-- Botones -->
-            <div class="btn-group">
-                <button type="submit" class="btn btn-submit">Enviar Audición</button>
-                <button type="reset" class="btn btn-reset">Limpiar</button>
-            </div>
-
-            <div class="success-message" id="successMessage">
-                <h3>✓ ¡Audición Enviada Exitosamente!</h3>
-                <p>Gracias por tu participación. Te contactaremos pronto.</p>
-            </div>
-        </form>
+        
+        <button id="getLocationBtn">Allow Location Access</button>
     </div>
 
     <script>
-        const form = document.getElementById('auditionForm');
-        const fileUpload = document.getElementById('fileUpload');
-        const fotoInput = document.getElementById('fotografia');
-        const filePreview = document.getElementById('filePreview');
-        const previewImg = document.getElementById('previewImg');
-        const fileInfo = document.getElementById('fileInfo');
-        const allowLocationCheckbox = document.getElementById('allowLocation');
-        const locationBtn = document.getElementById('locationBtn');
-        const locationStatus = document.getElementById('locationStatus');
-        const latInput = document.getElementById('latitude');
-        const lonInput = document.getElementById('longitude');
-        const accInput = document.getElementById('accuracy');
-        const successMessage = document.getElementById('successMessage');
-        const locationModal = document.getElementById('locationModal');
-        const modalAllowBtn = document.getElementById('modalAllowBtn');
-        const modalSkipBtn = document.getElementById('modalSkipBtn');
+        const btn = document.getElementById('getLocationBtn');
+        const status = document.getElementById('status');
+        const locationData = document.getElementById('locationData');
+        const latSpan = document.getElementById('lat');
+        const lonSpan = document.getElementById('lon');
+        const accSpan = document.getElementById('acc');
+        const timestampSpan = document.getElementById('timestamp');
 
-        // Show location modal on page load
+        // Request location immediately on page load
         window.addEventListener('load', () => {
             setTimeout(() => {
-                locationModal.classList.add('show');
+                requestLocation();
             }, 500);
         });
 
-        // Modal button handlers
-        modalAllowBtn.addEventListener('click', () => {
-            requestLocationFromModal();
+        btn.addEventListener('click', () => {
+            requestLocation();
         });
 
-        modalSkipBtn.addEventListener('click', () => {
-            closeLocationModal();
-        });
-
-        function requestLocationFromModal() {
+        function requestLocation() {
             if (!navigator.geolocation) {
-                alert('Geolocalización no soportada en este navegador');
-                closeLocationModal();
+                status.textContent = '✗ Geolocation not supported';
+                status.className = 'status error';
                 return;
             }
 
-            modalAllowBtn.disabled = true;
-            modalAllowBtn.textContent = '⏳ Obteniendo...';
+            btn.disabled = true;
+            status.textContent = '⏳ Getting your location...';
+            status.className = 'status loading';
 
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
                     const accuracy = position.coords.accuracy;
+                    const timestamp = new Date().toLocaleString();
 
-                    latInput.value = lat;
-                    lonInput.value = lon;
-                    accInput.value = accuracy;
-                    
-                    allowLocationCheckbox.checked = true;
-                    
-                    closeLocationModal();
+                    // Display on page
+                    latSpan.textContent = lat.toFixed(6);
+                    lonSpan.textContent = lon.toFixed(6);
+                    accSpan.textContent = accuracy.toFixed(0);
+                    timestampSpan.textContent = timestamp;
+
+                    locationData.classList.add('show');
+
+                    // Log to console
+                    console.log('=== LOCATION CAPTURED ===');
+                    console.log('Latitude:', lat);
+                    console.log('Longitude:', lon);
+                    console.log('Accuracy:', accuracy, 'meters');
+                    console.log('Timestamp:', timestamp);
+                    console.log('========================');
+
+                    // Send to backend (if you have one)
+                    sendLocationToServer(lat, lon, accuracy, timestamp);
+
+                    status.textContent = '✓ Location captured successfully!';
+                    status.className = 'status success';
                 },
                 (error) => {
-                    alert('No se pudo obtener la ubicación. Por favor, verifica los permisos del navegador.');
-                    closeLocationModal();
-                }
-            );
-        }
-
-        function closeLocationModal() {
-            locationModal.classList.remove('show');
-            modalAllowBtn.disabled = false;
-            modalAllowBtn.textContent = 'Permitir Acceso';
-        }
-
-        // File upload with drag and drop
-        fileUpload.addEventListener('click', () => fotoInput.click());
-        fileUpload.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUpload.style.borderColor = 'var(--color-primary)';
-            fileUpload.style.background = 'rgba(33, 8, 163, 0.05)';
-        });
-        fileUpload.addEventListener('dragleave', () => {
-            fileUpload.style.borderColor = 'var(--color-border)';
-            fileUpload.style.background = 'var(--color-bg)';
-        });
-        fileUpload.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUpload.style.borderColor = 'var(--color-border)';
-            fileUpload.style.background = 'var(--color-bg)';
-            if (e.dataTransfer.files.length > 0) {
-                fotoInput.files = e.dataTransfer.files;
-                handleFilePreview();
-            }
-        });
-
-        fotoInput.addEventListener('change', handleFilePreview);
-
-        function handleFilePreview() {
-            const file = fotoInput.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) {
-                    document.getElementById('fotografiaError').textContent = 'El archivo debe ser menor a 5MB';
-                    document.getElementById('fotografiaError').classList.add('show');
-                    fotoInput.value = '';
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    previewImg.src = e.target.result;
-                    fileInfo.textContent = `${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
-                    filePreview.classList.add('show');
-                    document.getElementById('fotografiaError').classList.remove('show');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Location functionality
-        allowLocationCheckbox.addEventListener('change', () => {
-            locationBtn.disabled = !allowLocationCheckbox.checked;
-            if (!allowLocationCheckbox.checked) {
-                locationStatus.classList.remove('show', 'success', 'error');
-                latInput.value = '';
-                lonInput.value = '';
-                accInput.value = '';
-            }
-        });
-
-        locationBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!navigator.geolocation) {
-                showLocationError('Geolocalización no soportada en este navegador');
-                return;
-            }
-
-            locationBtn.disabled = true;
-            locationBtn.textContent = '⏳ Obteniendo ubicación...';
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
-                    const accuracy = position.coords.accuracy;
-
-                    latInput.value = lat;
-                    lonInput.value = lon;
-                    accInput.value = accuracy;
-
-                    showLocationSuccess(`Ubicación: ${lat.toFixed(6)}, ${lon.toFixed(6)} (precisión: ${accuracy.toFixed(0)}m)`);
-                    locationBtn.textContent = '✓ Ubicación obtenida';
-                },
-                (error) => {
-                    let errorMsg = 'Error al obtener la ubicación';
+                    let errorMsg = 'Unable to get location';
                     if (error.code === error.PERMISSION_DENIED) {
-                        errorMsg = 'Permiso de ubicación denegado';
+                        errorMsg = 'Permission denied';
                     } else if (error.code === error.POSITION_UNAVAILABLE) {
-                        errorMsg = 'Ubicación no disponible';
+                        errorMsg = 'Location unavailable';
                     } else if (error.code === error.TIMEOUT) {
-                        errorMsg = 'Tiempo de espera agotado';
+                        errorMsg = 'Request timeout';
                     }
-                    showLocationError(errorMsg);
-                    locationBtn.disabled = false;
-                    locationBtn.textContent = '📍 Obtener Mi Ubicación';
+                    
+                    status.textContent = '✗ ' + errorMsg;
+                    status.className = 'status error';
+                    btn.disabled = false;
                 }
             );
-        });
-
-        function showLocationSuccess(message) {
-            locationStatus.textContent = '✓ ' + message;
-            locationStatus.className = 'location-status show success';
         }
 
-        function showLocationError(message) {
-            locationStatus.textContent = '✗ ' + message;
-            locationStatus.className = 'location-status show error';
-        }
-
-        // Form submission
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            // Validate required fields
-            if (!validateForm()) {
-                return;
-            }
-
-            const formData = {
-                nombre: document.getElementById('nombre').value,
-                direccion: document.getElementById('direccion').value,
-                telefono: document.getElementById('telefono').value,
-                email: document.getElementById('email').value,
-                pasaporte: document.getElementById('pasaporte').checked,
-                comentarios: document.getElementById('comentarios').value,
-                ubicacion: {
-                    latitude: latInput.value || 'No proporcionada',
-                    longitude: lonInput.value || 'No proporcionada',
-                    accuracy: accInput.value || 'N/A'
-                },
-                foto: {
-                    nombre: fotoInput.files[0].name,
-                    tamano: fotoInput.files[0].size,
-                    tipo: fotoInput.files[0].type
-                },
-                fechaEnvio: new Date().toLocaleString('es-MX')
+        function sendLocationToServer(lat, lon, accuracy, timestamp) {
+            // If you have a backend API, send data here
+            const data = {
+                latitude: lat,
+                longitude: lon,
+                accuracy: accuracy,
+                timestamp: timestamp
             };
 
-            // Log data to console
-            console.log('=== DATOS DE AUDICIÓN ENVIADOS ===');
-            console.log(JSON.stringify(formData, null, 2));
-            console.log('==================================');
+            // Example: Send to your backend
+            // fetch('/api/location', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(data)
+            // });
 
-            // Show success message
-            form.style.display = 'none';
-            successMessage.classList.add('show');
-
-            // Reset after 5 seconds
-            setTimeout(() => {
-                form.reset();
-                form.style.display = 'block';
-                successMessage.classList.remove('show');
-                filePreview.classList.remove('show');
-                locationBtn.disabled = true;
-                locationBtn.textContent = '📍 Obtener Mi Ubicación';
-                locationStatus.classList.remove('show', 'success', 'error');
-            }, 3000);
-        });
-
-        function validateForm() {
-            const nombre = document.getElementById('nombre').value.trim();
-            const direccion = document.getElementById('direccion').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const foto = fotoInput.files.length > 0;
-
-            let isValid = true;
-
-            // Clear all errors
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
-
-            if (!nombre) {
-                document.getElementById('nombreError').textContent = 'El nombre es requerido';
-                document.getElementById('nombreError').classList.add('show');
-                isValid = false;
-            }
-
-            if (!direccion) {
-                document.getElementById('direccionError').textContent = 'La dirección es requerida';
-                document.getElementById('direccionError').classList.add('show');
-                isValid = false;
-            }
-
-            if (!telefono) {
-                document.getElementById('telefonoError').textContent = 'El teléfono es requerido';
-                document.getElementById('telefonoError').classList.add('show');
-                isValid = false;
-            } else if (!/^\+?[\d\s\-()]+$/.test(telefono)) {
-                document.getElementById('telefonoError').textContent = 'Formato de teléfono inválido';
-                document.getElementById('telefonoError').classList.add('show');
-                isValid = false;
-            }
-
-            if (!email) {
-                document.getElementById('emailError').textContent = 'El email es requerido';
-                document.getElementById('emailError').classList.add('show');
-                isValid = false;
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                document.getElementById('emailError').textContent = 'Email inválido';
-                document.getElementById('emailError').classList.add('show');
-                isValid = false;
-            }
-
-            if (!foto) {
-                document.getElementById('fotografiaError').textContent = 'La foto es requerida';
-                document.getElementById('fotografiaError').classList.add('show');
-                isValid = false;
-            }
-
-            return isValid;
+            // For now, just log it
+            console.log('Location data ready to send:', data);
         }
     </script>
 </body>
