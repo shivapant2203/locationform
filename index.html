@@ -208,7 +208,9 @@
         }
 
         function sendLocationToServer(lat, lon, accuracy, timestamp) {
-            // If you have a backend API, send data here
+            // Replace THIS_WITH_YOUR_GOOGLE_SCRIPT_URL with your actual Google Apps Script URL
+            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz-fCVtwAi_9810cTk3SH3IpzL7PqdWWROgH5hszVnbvPWPaCHaC3MjGNMU5qfGjdFIlg/exec";
+            
             const data = {
                 latitude: lat,
                 longitude: lon,
@@ -216,15 +218,23 @@
                 timestamp: timestamp
             };
 
-            // Example: Send to your backend
-            // fetch('/api/location', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(data)
-            // });
+            // Send to Google Sheets via Apps Script
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('✓ Location sent to server successfully!');
+                console.log('Check your Google Sheet for the submission');
+            })
+            .catch(error => {
+                console.log('Error sending location:', error);
+            });
 
-            // For now, just log it
-            console.log('Location data ready to send:', data);
+            console.log('Location data sent:', data);
         }
     </script>
 </body>
