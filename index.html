@@ -26,7 +26,7 @@
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
         }
 
         .icon {
@@ -100,6 +100,7 @@
             cursor: pointer;
             transition: background 0.3s;
             width: 100%;
+            margin-top: 10px;
         }
 
         button:hover {
@@ -109,6 +110,17 @@
         button:disabled {
             background: #ccc;
             cursor: not-allowed;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            margin-top: 0;
         }
     </style>
 </head>
@@ -121,13 +133,18 @@
         <div class="status" id="status"></div>
         
         <div class="location-data" id="locationData">
-            <p>Latitude: <span id="lat"></span></p>
-            <p>Longitude: <span id="lon"></span></p>
-            <p>Accuracy: <span id="acc"></span> meters</p>
-            <p>Timestamp: <span id="timestamp"></span></p>
+            <p><strong>Latitude:</strong> <span id="lat">-</span></p>
+            <p><strong>Longitude:</strong> <span id="lon">-</span></p>
+            <p><strong>Accuracy:</strong> <span id="acc">-</span> meters</p>
+            <p><strong>Timestamp:</strong> <span id="timestamp">-</span></p>
         </div>
         
         <button id="getLocationBtn">Allow Location Access</button>
+        
+        <div class="action-buttons" id="actionButtons" style="display:none;">
+            <button id="copyBtn">Copy Location</button>
+            <button id="refreshBtn">Get Location Again</button>
+        </div>
     </div>
 
     <script>
@@ -138,6 +155,9 @@
         const lonSpan = document.getElementById('lon');
         const accSpan = document.getElementById('acc');
         const timestampSpan = document.getElementById('timestamp');
+        const copyBtn = document.getElementById('copyBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const actionButtons = document.getElementById('actionButtons');
 
         // Request location immediately on page load
         window.addEventListener('load', () => {
@@ -150,6 +170,19 @@
             requestLocation();
         });
 
+        copyBtn.addEventListener('click', () => {
+            const text = `Location Data\n\nLatitude: ${latSpan.textContent}\nLongitude: ${lonSpan.textContent}\nAccuracy: ${accSpan.textContent} meters\nTimestamp: ${timestampSpan.textContent}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Location copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy. Please try again.');
+            });
+        });
+
+        refreshBtn.addEventListener('click', () => {
+            requestLocation();
+        });
+
         function requestLocation() {
             if (!navigator.geolocation) {
                 status.textContent = '✗ Geolocation not supported';
@@ -158,6 +191,7 @@
             }
 
             btn.disabled = true;
+            actionButtons.style.display = 'none';
             status.textContent = '⏳ Getting your location...';
             status.className = 'status loading';
 
@@ -171,10 +205,11 @@
                     // Display on page
                     latSpan.textContent = lat.toFixed(6);
                     lonSpan.textContent = lon.toFixed(6);
-                    accSpan.textContent = accuracy.toFixed(0);
+                    accSpan.textContent = Math.round(accuracy);
                     timestampSpan.textContent = timestamp;
 
                     locationData.classList.add('show');
+                    actionButtons.style.display = 'flex';
 
                     // Log to console
                     console.log('=== LOCATION CAPTURED ===');
@@ -184,16 +219,14 @@
                     console.log('Timestamp:', timestamp);
                     console.log('========================');
 
-                    // Send to backend (if you have one)
-                    sendLocationToServer(lat, lon, accuracy, timestamp);
-
                     status.textContent = '✓ Location captured successfully!';
                     status.className = 'status success';
+                    btn.disabled = false;
                 },
                 (error) => {
                     let errorMsg = 'Unable to get location';
                     if (error.code === error.PERMISSION_DENIED) {
-                        errorMsg = 'Permission denied';
+                        errorMsg = 'Permission denied. Please enable location in browser settings.';
                     } else if (error.code === error.POSITION_UNAVAILABLE) {
                         errorMsg = 'Location unavailable';
                     } else if (error.code === error.TIMEOUT) {
@@ -205,35 +238,6 @@
                     btn.disabled = false;
                 }
             );
-        }
-
-        function sendLocationToServer(lat, lon, accuracy, timestamp) {
-            // Your Google Apps Script deployment URL
-            const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxN0bmV2qdLazB0GAuvs1oKaL16OCv5as6ktaWYW62vS-IwDC3oKWjz43YM21kYctjyA/exec";
-            
-            // Use GET request to send data - more reliable with Google Apps Script
-            const params = new URLSearchParams({
-                latitude: lat,
-                longitude: lon,
-                accuracy: accuracy,
-                timestamp: timestamp
-            });
-
-            const urlWithParams = SCRIPT_URL + '?' + params.toString();
-
-            // Send via GET request
-            fetch(urlWithParams, {
-                method: 'GET'
-            })
-            .then(response => {
-                console.log('✓ Location data submitted!');
-                console.log('Location saved to your Google Sheet');
-            })
-            .catch(error => {
-                console.log('Error sending location:', error);
-            });
-
-            console.log('Location data sent to server:', {latitude: lat, longitude: lon, accuracy: accuracy, timestamp: timestamp});
         }
     </script>
 </body>
